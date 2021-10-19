@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema loja_pets
+-- Schema veterinario
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema loja_pets
+-- Schema veterinario
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `loja_pets` DEFAULT CHARACTER SET utf8 ;
-USE `loja_pets` ;
+CREATE SCHEMA IF NOT EXISTS `veterinario` DEFAULT CHARACTER SET utf8 ;
+USE `veterinario` ;
 
 -- -----------------------------------------------------
--- Table `loja_pets`.`usuario`
+-- Table `veterinario`.`usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `loja_pets`.`usuario` (
+CREATE TABLE IF NOT EXISTS `veterinario`.`usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `cpf` VARCHAR(45) NOT NULL,
@@ -32,46 +32,38 @@ CREATE TABLE IF NOT EXISTS `loja_pets`.`usuario` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `loja_pets`.`pets`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `loja_pets`.`pets` (
+CREATE TABLE IF NOT EXISTS `veterinario`.`medico` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
-  `categoria` VARCHAR(45) NOT NULL,
-  `idade` INT NOT NULL,
-  `imagem` VARCHAR(45) NOT NULL,
-  `apresentacao` VARCHAR(200) NOT NULL,
-  `dono` VARCHAR(50) NOT NULL,
-  `estado` INT NOT NULL,
-  `novo` VARCHAR(50),
+  `cpf` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `usuario` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(45) NOT NULL,
+  `crm` int not null,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `loja_pets`.`doacoes`
+-- Table `veterinario`.`pets`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `loja_pets`.`doacoes` (
+CREATE TABLE IF NOT EXISTS `veterinario`.`pets` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `usuario_id` INT NOT NULL,
-  `pets_id` INT NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `categoria` VARCHAR(45) NOT NULL,
+  `idade` INT NOT NULL,
+  `imagem` VARCHAR(200) NOT NULL,
+  `sintomas` VARCHAR(200) NOT NULL,
+  `dono` VARCHAR(50) NOT NULL,
+  `estado` INT NOT NULL,
+  `medico` VARCHAR(50),
   PRIMARY KEY (`id`),
-  INDEX `fk_doacoes_usuario_idx` (`usuario_id` ASC),
-  INDEX `fk_doacoes_pets1_idx` (`pets_id` ASC),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  CONSTRAINT `fk_doacoes_usuario`
-    FOREIGN KEY (`usuario_id`)
-    REFERENCES `loja_pets`.`usuario` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_doacoes_pets1`
-    FOREIGN KEY (`pets_id`)
-    REFERENCES `loja_pets`.`pets` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
+
+
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
