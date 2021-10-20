@@ -38,11 +38,12 @@
 		</div>
     </header>
 </div>
-<br> <br> <br> <br>
+<br> <br> <br> <br> <br>
+<div class="alert" id="alert" role="alert"></div>
 
 <div class="col-5 mx-auto">
       <div class="signup-form">
-        <form action="../controller/MedicoController.php" method="post">
+        <form action="" method="post" id="cadMedico">
           <h2 class="text-center">Registro</h2>
           <p class="hint-text">Crie sua conta agora </p>
           <div class="form-group">
@@ -69,18 +70,15 @@
             <input type="password" class="form-control" name="senha" placeholder="Senha" required>
           </div>
 
-          <div class="form-group">
-            <label class="checkbox-inline"><input type="checkbox" required> Eu aceito os <a href="#">Termos de Usuário</a> &amp; <a href="#">Política de Privacidade</a></label>
-          </div>
+          
 
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Registre agora</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" id="salvar">Registre agora</button>
           </div>
         </form>
         <div class="text-center">Já tem uma conta? <button type="link" class="
                     btn btn-primary btn-lg btn-block"><a class="text-light" href="loginMedico.php">Login</a>
           </button></div>
-
 
 
 
@@ -95,6 +93,83 @@
 
 
 <script src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+        /// Quando usuário clicar em salvar serão feitos todos os passos abaixo
+        $('#salvar').click(function() {
+            var nome = $('#nome').val();
+            var cpf = $('#cpf').val();
+            var email = $('#email').val();
+            var crm = $('#crm').val();
+            var usuario = $('#usuario').val();
+            var senha = $('#senha').val();
+
+      $('#alert').html('');
+      if (nome == '') {
+        $('#alert').html('Preencher o nome.');
+        $('#alert').addClass("alert-danger");
+        return false;       
+      }
+
+      $('#alert').html('');
+      if (cpf == '') {
+        $('#alert').html('Preencher o cpf.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+      if (email == '') {
+        $('#alert').html('Preencher o email.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+      if (crm == '') {
+        $('#alert').html('Preencher o crm.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+      if (usuario == '') {
+        $('#alert').html('Preencher o usuário.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+      if (senha == '') {
+        $('#alert').html('Preencher a senha.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+            var dados = $('#cadMedico').serialize();
+            
+            $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '../controller/MedicoController.php',
+                    async: true,
+                    data: dados,
+
+                    success: function(response) {
+                                  
+
+                    },
+                    error: function(req, err){ console.log('Mensagem:' + err); }
+            });
+                                  $('form').trigger("reset");
+                                  $('#alert').addClass("alert-success");
+                                  $('#alert').fadeIn().html('Registro salvo com sucesso');
+            return false;
+        });
+      
+    });
+</script>
 <script src="../styles/bootstrap-4.1.2/popper.js"></script>
 <script src="../styles/bootstrap-4.1.2/bootstrap.min.js"></script>
 <script src="../plugins/greensock/TweenMax.min.js"></script>

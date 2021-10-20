@@ -38,40 +38,39 @@
 		</div>
     </header>
 </div>
-<br> <br> <br> <br>
+<br> <br> <br> <br> <br>
+<div class="alert" id="alert" role="alert"></div>
 
 <div class="col-5 mx-auto">
       <div class="signup-form">
-        <form action="../controller/UsuarioController.php" method="post">
+        <form action="" id="cadUsuario" method="post">
           <h2 class="text-center">Registro</h2>
           <p class="hint-text">Crie sua conta agora </p>
           <div class="form-group">
-            <input type="text" class="form-control"  name="nome" placeholder="Nome completo" required>
+            <input type="text" class="form-control"  name="nome" id="nome" placeholder="Nome completo" required>
           </div>
 
           <div class="form-group">
-            <input type="text" class="form-control"  name="cpf" placeholder="CPF" required>
+            <input type="text" class="form-control"  name="cpf" id="cpf" placeholder="CPF" required>
           </div>
           
           <div class="form-group">
-            <input type="email" class="form-control"  name="email" placeholder="E-mail" required>
+            <input type="email" class="form-control"  name="email" id="email" placeholder="E-mail" required>
           </div>
 
 
           <div class="form-group">
-            <input type="text" class="form-control" value="" name="usuario" placeholder="Nome de usuário" required>
+            <input type="text" class="form-control" value="" name="usuario" id="usuario" placeholder="Nome de usuário" required>
           </div>
 
           <div class="form-group">
-            <input type="password" class="form-control" name="senha" placeholder="Senha" required>
+            <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" required>
           </div>
 
-          <div class="form-group">
-            <label class="checkbox-inline"><input type="checkbox" required> Eu aceito os <a href="#">Termos de Usuário</a> &amp; <a href="#">Política de Privacidade</a></label>
-          </div>
+            
 
           <div class="form-group">
-            <button type="submit" id="submit" class="btn btn-success btn-lg btn-block">Registre agora</button>
+            <button type="submit" id="salvar" class="btn btn-success btn-lg btn-block">Registre agora</button>
           </div>
         </form>
         <div class="text-center">Já tem uma conta? 
@@ -94,34 +93,74 @@
 
 <script src="../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-
-  $(document).ready(function(){
-    $('#submit').click(function(){
-      var nome = $('#nome').val();
-      var fone = $('#fone').val();
-      var cidade = $('#cidade').val();
-
+$(document).ready(function() {
+        /// Quando usuário clicar em salvar serão feitos todos os passos abaixo
+        $('#salvar').click(function() {
+            var nome = $('#nome').val();
+            var cpf = $('#cpf').val();
+            var email = $('#email').val();
+            var usuario = $('#usuario').val();
+            var senha = $('#senha').val();
 
       $('#alert').html('');
+      if (nome == '') {
+        $('#alert').html('Preencher o nome.');
+        $('#alert').addClass("alert-danger");
+        return false;       
+      }
 
-      $.ajax({
-        url:'enviar.php',
-        method: 'POST',
-        data: {nome: nome, fone:fone, cidade:cidade},
-        success: function(result) {
-          $('form').trigger("reset");
-          $('#alert').addClass("alert-success");
-          $('#alert').fadeIn().html(result);
-          setTimeout(function(){
-            $('#alert').fadeOut('Slow');
-          },3000);
-        }
-      });
+      $('#alert').html('');
+      if (cpf == '') {
+        $('#alert').html('Preencher o cpf.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
 
+      $('#alert').html('');
+      if (email == '') {
+        $('#alert').html('Preencher o email.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
 
+      $('#alert').html('');
+      if (usuario == '') {
+        $('#alert').html('Preencher o usuário.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
 
+      $('#alert').html('');
+      if (senha == '') {
+        $('#alert').html('Preencher a senha.');
+        $('#alert').addClass("alert-danger");
+        return false;
+      }
+
+      $('#alert').html('');
+            var dados = $('#cadUsuario').serialize();
+            
+            $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '../controller/UsuarioController.php',
+                    async: true,
+                    data: dados,
+
+                    success: function(response) {
+                                  
+
+                    },
+                    error: function(req, err){ console.log('Mensagem:' + err); }
+            });
+            $('form').trigger("reset");
+                                  $('#alert').addClass("alert-success");
+                                  $('#alert').fadeIn().html('Registro salvo com sucesso');
+            return false;
+        });
+      
     });
-  });
+</script>
 <script src="../styles/bootstrap-4.1.2/popper.js"></script>
 <script src="../styles/bootstrap-4.1.2/bootstrap.min.js"></script>
 <script src="../plugins/greensock/TweenMax.min.js"></script>
