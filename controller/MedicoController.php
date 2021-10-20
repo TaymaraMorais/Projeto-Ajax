@@ -21,7 +21,6 @@ if(isset($_POST['nome']))
 {   
  $medico->cadastrarMedico($_POST['nome'], $_POST['cpf'], $_POST['email'], $_POST['usuario'], $_POST['senha'], $_POST['crm']);
  
-header('location:../view/loginMedico.php');
 }
 
 ?>

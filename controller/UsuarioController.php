@@ -17,11 +17,11 @@ class UsuarioController
 }
 
 $usuario = new UsuarioController();
-if(isset($_POST['nome']))
-{   
+ if(isset($_POST['nome']))
+{  
  $usuario->cadastrarUsuario($_POST['nome'], $_POST['cpf'], $_POST['email'], $_POST['usuario'], $_POST['senha']);
  
-header('location:../view/loginUsuario.php');
 }
+
 
 ?>
